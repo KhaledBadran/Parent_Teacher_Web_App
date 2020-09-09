@@ -1,0 +1,211 @@
+<% include headers/headerGroups %>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+
+        <a class="navbar-brand" href="#">
+                <div class="navbar-header">
+                        <a class="navbar-brand" href="/homepage">School App</a>
+                      </div>
+        
+            <div class="collapse navbar-collapse" id="navbarSupportedContent"> </div>
+   
+                <a class="btn btn-outline-danger my-2 my-sm-0 ml-3 mr-3" role="button" href="/homepage"> <i class="fas fa-sign-out-alt"></i>Log Out</a>
+        
+          </nav>
+        
+          <div class="wrapper">
+                <aside class="main_sidebar">
+                        <ul class="sidebar_menu">
+        
+        
+                                <div class="card text-center"  style="padding-top:10px; background-color: rgb(16, 26, 49);">
+                                        <img class="rounded-circle"  style="margin-left: 110px;" src="stylesheets/res/placeholderProfilePicture.png" alt="User Profile Picture" height="128px" width="128px">
+                                        <div class="card-body">
+                                          <h5 class="card-title text-white"><%= name%></h5>
+            
+                                          <form action="/viewProfile" method="POST">
+            
+            
+                                            <input type="text" name="userID" style="display:none" value = "<%= uID%>">
+                                            <button name="toProfile" class="btn btn-danger"><i class="fa fa-user-circle m-1"></i>View Profile</button>
+                                                </form>
+                                        
+                                        </div>
+                                      </div>
+        
+                                <li class="sidebar_menu_item">
+                                
+                                        
+                                </li>
+            
+                                <li class="sidebar_menu_item">
+                                  <form action="/goToWall" method="POST">
+                                    <input type="text" name = "userID" style="display:none" value="<%=uID%>">
+                                    <input type="text" name = "friendID" style="display:none" value="<%=uID%>">
+                                    <button name="toMyWall" class="toMyWall"><i class="material-icons" style="float: left;padding-right:10px;">description</i>My Wall</button>
+                                  </form>
+                                </li>
+            
+                                <li class="sidebar_menu_item">
+            
+                                 <form action="/friends" method="POST">
+            
+                                    <input type="text" name="userID" style="display:none" value = "<%= uID%>">
+                                    <input type="text" name="userName" style="display:none" value = "<%= name%>">
+                                                           <button name="toFriends" class="toFriends"><i class="material-icons" style="float: left;padding-right:10px;">tag_faces</i>Friends</button>
+                                                               </form>
+            
+                                                               </li>
+            
+                                    <li class="sidebar_menu_item">
+            
+                                        <form action="/groups" method="POST">
+            
+                                        <input type="text" name="userID" style="display:none" value = "<%= uID%>">
+                                        <button name="toGroups" class="toGroups"><i class="material-icons" style="float: left;padding-right:10px;">group_work</i>Groups</button>
+                                            </form>
+            
+                                            </li>
+            
+                                            <li class="sidebar_menu_item"><a href="#" onClick="dropDownSide();return false;"><em class="material-icons" style="float:left;padding-right:10px;">supervisor_account</em>Student Info <em class="material-icons" style="float: right;font-size:20px">keyboard_arrow_down</em></a>
+                                                <ul class="sidebar_studentInfo_dropDownMenu" id="dropDownList" style="display: none" >
+                                                    <li class="sidebar_menu_item">
+                                                        <a href="#"><i class="material-icons" style="float:left;padding-right:10px;font-size:20px">stars</i>Grades</a>
+                                                    </li>
+                                                    <li class="sidebar_menu_item">
+                                                        <a href="#"><i class="material-icons" style="float:left;padding-right:10px;font-size:20px">date_range</i>Schedule</a>
+                                                    </li>
+                                                    <li class="sidebar_menu_item">
+                                                        <a href="#"><i class="material-icons" style="float:left;padding-right:10px;font-size:20px">school</i>Classes</a>
+                                                    </li>
+                                                </ul>
+                        
+                                            </li>
+                        
+            
+            
+                                <li class="sidebar_menu_item">
+            
+                                    <a href="#"><i class="material-icons" style="float:left;padding-right:10px;font-size:20px">contact_phone</i>Teacher Contact Info</a>
+                                </li>
+            
+                                <li class="sidebar_menu_item">
+                                    <a href="#"><i class="material-icons" style="float:left;padding-right:10px;font-size:20px">help</i>Help</a>
+                                </li>
+            
+                            </ul>
+                         </aside>
+                
+                        </div> 
+<div class="container-fluid">
+    <div class="page_content">
+
+
+        <div  class="creatGroupHeader">
+
+               <p id="gtitle"><i class="material-icons" style="font-size:25px">create</i> Create A New Group</p>
+
+
+                    <form action="/createGroups" method="POST">
+                        <input type="text" name="userID" style="display:none" value = "<%= uID%>">
+                        <input type="text" name="groupName" class="searchField" placeholder="Group Name" required maxlength="20">
+                     <button name="createGroup" class="createGroupBtn">Create Group </button>
+
+                    </form>
+
+        </div>
+        <hr class="divider">
+
+
+        <div class="groupListHeader">
+
+                <p id="g1title"><i class="material-icons" style="font-size:22px">group_work</i> Your Groups</p>
+
+        </div>
+
+        <div class="groupList">
+
+
+
+                <table class="groupsListTable">
+
+                        <% if(typeof groupList !== 'undefined'){ %>
+
+                                <% groupList.forEach(function(v){ %>
+
+
+
+                        <tr class="groupTableRow">
+
+
+                            <form action="/editGroup" method="POST">
+
+                                <td class="group"><span class="group"style="margin-left:20px;"><%= v.groupName%></span></td>
+                                <td class="group"> <input type="text" name="userID" style="display:none" value = "<%= uID%>"> </td>
+                                    <!-- Group ID -->
+                                <td class="group" ><span style="margin-left:70px;">Group ID: <%= v.groupID%></span><input type="text"name="groupID" style="display:none;" value = "<%=v.groupID%>"></td>
+
+                                <td > <button name="editGroup" class="editGroupBtn" >View/Edit</button> </td>
+                            </form>
+                        </tr>
+                                <% }) %>
+                        <% } %>
+                </table>
+
+
+
+
+
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+    <!-- Show/hide drop down menu -->
+    <script>
+
+
+        function dropDownTop() {
+
+            var dropDownList = document.getElementById("quickAccess_list");
+
+
+            if(dropDownList.style.display === "block")
+                dropDownList.style.display = "none";
+            else
+                dropDownList.style.display = "block";
+        }
+
+
+        function dropDownSide() {
+
+            var dropDownList = document.getElementById("dropDownList");
+
+
+            if(dropDownList.style.display === "block")
+                dropDownList.style.display = "none";
+            else
+                dropDownList.style.display = "block";
+        }
+
+
+          function showNewPostFromBox() {
+
+            var newPostTextForm = document.getElementById("post");
+
+
+            if(newPostTextForm.style.display === "block")
+                newPostTextForm.style.display = "none";
+            else
+                newPostTextForm.style.display = "block";
+        }
+
+    </script>
+
+<% include headers/footer %>

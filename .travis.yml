@@ -1,0 +1,45 @@
+language: node_js
+node_js:
+  - "node"
+install:
+  - npm install mysql
+  - npm install ejs
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+jobs:
+  include:
+    - script:
+        - node ./functiontests/loginsignuptesting.js
+        - node ./functiontests/signuplogintestingcleanup.js
+    - script:
+        - node ./functiontests/functiontesting.js
+        - node ./functiontests/functiontestingcleanup.js
+    - script:
+        - node ./functiontests/checkEmailDuplicates.js
+    - script:
+        - node ./functiontests/profileEditTesting.js
+    - script:
+        - node ./functiontests/profileViewTesting.js
+    - script:
+        - node ./functiontests/ImagePostingTest.js
+        - node ./functiontests/ImagePostingTestCleanUp.js
+    - script:
+        - node ./functiontests/createGroupTest.js
+        - node ./functiontests/createGroupTestCleanUp.js
+    - script:
+        - node ./functiontests/searchTest.js
+    - script:
+        - node ./functiontests/checkIDDubplicates.js
+    - script:
+        - node ./functiontests/searchEmailTest.js
+    - script:
+        - node ./functiontests/friendPageFriendTester.js
+    - script:
+        - node ./functiontests/CommentingTest.js
+        - node ./functiontests/CommentingTestCleanUp.js
+
+
